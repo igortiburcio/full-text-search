@@ -36,7 +36,12 @@ async function initializeDb(): Promise<void> {
 function createFullTextReverseIndex(searchEngine: FullTextSearchEngine) {
   for (let idx = 0; idx < names.length; idx++) {
     const name = names[idx];
-    searchEngine.addName(name!, idx);
+
+    if (!name) {
+      continue;
+    }
+
+    searchEngine.addName(name, idx);
   }
 }
 
