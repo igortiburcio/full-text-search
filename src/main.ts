@@ -1,6 +1,7 @@
 import csvParser from 'csv-parser';
 import fs from 'fs';
 import { FullTextSearchEngine } from './fts-engine';
+import { tableScanSearch } from './table-scan';
 
 export let names: string[] = [];
 export let reverseIndex: Map<string, Set<number>> = new Map();
@@ -52,8 +53,22 @@ createFullTextReverseIndex(fullTextSearchEngine);
 
 console.log(`Database initialized with ${names.length} unique names.`);
 
-const query = 'Bruno Vinicius Dias Da Silva';
+const query = 'Igor Wander';
+const ilikePattern = `%${query}%`;
 
-const searchResults = fullTextSearchEngine.search(query.toUpperCase());
+const fullTextStartedAt = performance.now();
+const fullTextResults = fullTextSearchEngine.search(query.toUpperCase());
+const fullTextDurationMs = performance.now() - fullTextStartedAt;
 
-console.log(`Search results for query "${query}":`, searchResults);
+const tableScanStartedAt = performance.now();
+const tableScanResults = tableScanSearch(names, ilikePattern.toUpperCase());
+const tableScanDurationMs = performance.now() - tableScanStartedAt;
+
+console.log(`Full text results for query "${query}":`, fullTextResults);
+console.log(`Full text time: ${fullTextDurationMs.toFixed(2)}ms`);
+
+console.log(
+  `Table scan (ILIKE) results for pattern "${ilikePattern}":`,
+  tableScanResults,
+);
+console.log(`Table scan time: ${tableScanDurationMs.toFixed(2)}ms`);
