@@ -30,16 +30,23 @@ export class FullTextSearchEngine {
         }
       });
     });
+
     const queryFirstWord = query.toUpperCase().split(' ')[0];
+
+    if (!queryFirstWord) {
+      throw new Error('Query must contain at least one word.');
+    }
 
     const scoredResults = Array.from(scoresMap.entries())
       .map(([line, score]) => ({ name: names[line], score }))
       .sort((a, b) => b.score - a.score)
       .filter((result) =>
-        result.name?.toUpperCase().startsWith(queryFirstWord!),
+        result.name?.toUpperCase().startsWith(queryFirstWord),
       );
 
-    const output = scoredResults.map((result) => result.name || '');
+    const output = scoredResults
+      .map((result) => result.name)
+      .filter((result) => result !== undefined);
 
     return output.slice(0, 10);
   }

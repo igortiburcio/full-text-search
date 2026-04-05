@@ -47,8 +47,8 @@ createFullTextReverseIndex(fullTextSearchEngine);
 
 console.log(`Database initialized with ${names.length} unique names.`);
 
-const query = 'PAULO GUILHERME';
+const query = 'Bruno Vinicius Dias Da Silva';
 
-const searchResults = fullTextSearchEngine.search(query);
+const searchResults = fullTextSearchEngine.search(query.toUpperCase());
 
 console.log(`Search results for query "${query}":`, searchResults);
