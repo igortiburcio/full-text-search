@@ -4,12 +4,24 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "bun run src/main.ts"
+    "start": "bun run src/main.ts",
+    "lint": "eslint \"src/**/*.{js,ts}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{js,ts}\"",
+    "format": "prettier --write \"src/**/*.{js,ts,json,md}\""
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "eslint": "latest",
+    "prettier": "latest",
+    "@typescript-eslint/parser": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "eslint-config-prettier": "latest",
+    "eslint-plugin-prettier": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "csv-parser": "^3.2.0"
   }
 }
